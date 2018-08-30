@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace CityInfo.API.Services
 {
-    public class LocalMailService : IMailService
+    public class CloudMailService : IMailService
     {
         public string _mailTo = "admin@ef.com";
         public string _mailFrom = "no-reply@ef.com";
 
         public void Send(string subject, string message)
         {
-            Debug.WriteLine($"Mail from {_mailFrom} to {_mailTo}, with LocalMailService." );
+            Debug.WriteLine($"Mail from {_mailFrom} to {_mailTo}, with CloudMailService.");
             Debug.WriteLine($"Subject: {subject}");
             Debug.WriteLine($"Message: {message}");
         }
