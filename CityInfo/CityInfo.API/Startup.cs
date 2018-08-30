@@ -38,7 +38,7 @@ namespace CityInfo.API
 
             services.AddTransient<IMailService,LocalMailService>();
 
-            var connectionString = @"Data Source=CHZ-KMASIAK\SQLEXPRESS;Database=CityInfoDb;Trusted_Connection=True;Integrated Security=True;";
+            var connectionString = Startup.Configuration["connectionStrings:cityInfoDbConnectionString"];
             services.AddDbContext<CityInfoContext>(o => o.UseSqlServer(connectionString));
         }
 
