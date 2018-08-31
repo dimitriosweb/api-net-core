@@ -23,14 +23,9 @@ namespace CityInfo.API
 
         public Startup(IConfiguration configuration)
         {
-            //var builder = new ConfigurationBuilder()
-            //    .SetBasePath(env.ContentRootPath)
-            //    .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true);
-            //Configuration = builder.Build();
             Configuration = configuration;
         }
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
@@ -60,6 +55,11 @@ namespace CityInfo.API
             }
 
             app.UseStatusCodePages();
+
+            AutoMapper.Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<Entities.City, Models.CityWithoutPointsOfInterestDto>();
+                });
             app.UseMvc();
             
             //app.Run((context) =>
