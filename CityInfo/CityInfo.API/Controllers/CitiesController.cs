@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CityInfo.API.Models;
 using CityInfo.API.Services;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -23,17 +24,8 @@ namespace CityInfo.API.Controllers
         public IActionResult GetCities()
         {
             var cityEntities = _cityInfoRepository.GetCities();
-            var results = new List<CityWithoutPointsOfInterestDto>();
 
-            foreach (var cityEntity in cityEntities)
-            {
-                results.Add(new CityWithoutPointsOfInterestDto()
-                {
-                    Id = cityEntity.Id,
-                    Name = cityEntity.Name,
-                    Description = cityEntity.Description
-                });
-            }
+            var results = Mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
 
             return Ok(results);
             
@@ -48,31 +40,11 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             if (includePointsOfInterest)
             {
-                var cityResult = new CityDto()
-                {
-                    Id = city.Id,
-                    Name = city.Name,
-                    Description = city.Description
-                };
-                foreach (var poi in city.PointsOfInterest)
-                {
-                    cityResult.PointsOfInterest.Add(new PointsOfInterestDto()
-                    {
-                        Id = poi.Id,
-                        Name = poi.Name,
-                        Description = poi.Description
-                    });
-                }
+                var cityResult = Mapper.Map<CityDto>(city);
                 return Ok(cityResult);
             }
 
-            var cityWithoutPointsOfInterestResult =
-                new CityWithoutPointsOfInterestDto()
-                {
-                    Id = city.Id,
-                    Name = city.Name,
-                    Description = city.Description
-                };
+            var cityWithoutPointsOfInterestResult = Mapper.Map<CityWithoutPointsOfInterestDto>(city);
             return Ok(cityWithoutPointsOfInterestResult);
         }
     }
